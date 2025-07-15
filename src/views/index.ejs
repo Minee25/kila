@@ -1,0 +1,413 @@
+<div class="px-3 mt-3">
+  <!-- Hero -->
+  <div class="container mx-auto">
+    <div class="flex flex-col p-6 items-center max-h-[688px] overflow-hidden">
+      <div class="mt-16 mb-10">
+        <h1 class="text-gray-100 text-6xl text-center font-bold">ค้นหารายชื่อในกีฬาสี</h1>
+        <h2 class="text-gray-300 text-2xl text-center font-medium mt-2 mb-4">ค้นหาชื่อเพื่อน ๆ หรือสมาชิกในกีฬาสีของคุณเลย!</h2> 
+      </div> 
+    </div>
+  </div>
+
+  <div id="hero" class="container mx-auto bg-gradient-to-r from-gray-800/90 to-gray-700/70 rounded-sm border border-gray-600 shadow-kila">
+    <div class="flex flex-col p-6 items-center max-h-[688px] overflow-hidden">
+      <form action="/search" method="GET" id="filter_search" class="flex flex-col items-center w-full max-w-2xl mx-auto mb-6">
+        <!-- Search Input -->
+        <div class="flex items-center w-full max-w-md mb-4">
+          <input type="text" name="q" placeholder="ค้นหาชื่อหรือรหัสนิสิต..." value="<% if (typeof searchQuery !== 'undefined' && searchQuery) { %><%= searchQuery %><% } %>"
+            class="w-full flex-grow px-4 py-3 border border-blue-400 rounded-l-sm bg-gray-800 text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none">
+          <button type="submit" class="bg-blue-600 border border-blue-600 active:ring-2 active:ring-blue-500 cursor-pointer text-white hover:bg-blue-700 font-semibold px-6 py-3 rounded-r-sm shadow-lg hover:shadow-xl transition-all duration-300">ค้นหา</button>
+        </div>
+      </form>
+
+      <form action="/search" method="GET" id="filter_color_major">
+        <!-- Filters -->
+        <div class="flex flex-wrap gap-4 justify-center w-full">
+          <!-- Color Filter -->
+          <div class="flex flex-col items-center">
+            <label class="text-gray-200 font-semibold mb-2 text-sm">สี</label>
+            <div class="flex gap-2">
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="color" value="" class="sr-only" <% if (typeof colorQuery === 'undefined' || !colorQuery) { %>checked<% } %>>
+                <span class="w-8 h-8 bg-gray-500 border-2 border-gray-400 shadow-md hover:scale-110 transition-transform"></span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="color" value="แดง" class="sr-only" <% if (typeof colorQuery !== 'undefined' && colorQuery === 'แดง') { %>checked<% } %>>
+                <span class="w-8 h-8 bg-red-500 border-2 border-gray-400 shadow-md hover:scale-110 transition-transform"></span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="color" value="น้ำเงิน" class="sr-only" <% if (typeof colorQuery !== 'undefined' && colorQuery === 'น้ำเงิน') { %>checked<% } %>>
+                <span class="w-8 h-8 bg-blue-500 border-2 border-gray-400 shadow-md hover:scale-110 transition-transform"></span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="color" value="ชมพู" class="sr-only" <% if (typeof colorQuery !== 'undefined' && colorQuery === 'ชมพู') { %>checked<% } %>>
+                <span class="w-8 h-8 bg-pink-400 border-2 border-gray-400 shadow-md hover:scale-110 transition-transform"></span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="color" value="เหลือง" class="sr-only" <% if (typeof colorQuery !== 'undefined' && colorQuery === 'เหลือง') { %>checked<% } %>>
+                <span class="w-8 h-8 bg-yellow-500 border-2 border-gray-400 shadow-md hover:scale-110 transition-transform"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Major Filter -->
+          <div class="flex flex-col items-center">
+            <label class="text-gray-200 font-semibold mb-2 text-sm">สาขา</label>
+            <select name="major" class="px-3 py-2 border border-gray-500 rounded-lg bg-gray-800 text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none">
+              <option value="">ทุกสาขา</option>
+              <option value="วิทยาการคอมพิวเตอร์ CS" <% if (typeof majorQuery !== 'undefined' && majorQuery === 'วิทยาการคอมพิวเตอร์ CS') { %>selected<% } %>>วิทยาการคอมพิวเตอร์ CS</option>
+              <option value="วิทยาการข้อมูลประยุกต์ ADS" <% if (typeof majorQuery !== 'undefined' && majorQuery === 'วิทยาการข้อมูลประยุกต์ ADS') { %>selected<% } %>>วิทยาการข้อมูลประยุกต์ ADS</option>
+              <option value="วิทยาการคอมพิวเตอร์หลักสูตรนานาชาติ CST" <% if (typeof majorQuery !== 'undefined' && majorQuery === 'วิทยาการคอมพิวเตอร์หลักสูตรนานาชาติ CST') { %>selected<% } %>>วิทยาการคอมพิวเตอร์หลักสูตรนานาชาติ CST</option>
+            </select>
+          </div>
+        </div>
+      </form>
+      
+      <a href="/"
+         class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-gray-700 text-blue-300 font-semibold rounded-lg shadow-md border border-gray-600 hover:bg-gray-600 hover:text-blue-200 transition-all duration-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z" />
+        </svg>
+        แสดงรายชื่อทั้งหมด
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Committee List for Selected Color -->
+<% if (typeof committees !== 'undefined' && committees.length > 0 && typeof colorQuery !== 'undefined' && colorQuery) { %>
+  <div class="container mx-auto mt-20 mb-4 px-3">
+    <div class="p-4 sm:p-8 bg-gray-900 
+      border 
+      <% if (colorQuery === 'แดง') { %>border-red-600<% } %>
+      <% if (colorQuery === 'น้ำเงิน') { %>border-blue-600<% } %>
+      <% if (colorQuery === 'ชมพู') { %>border-pink-400<% } %>
+      <% if (colorQuery === 'เหลือง') { %>border-yellow-400<% } %>
+      <% if (['แดง','น้ำเงิน','ชมพู','เหลือง'].indexOf(colorQuery) === -1) { %>border-yellow-600<% } %>
+      shadow-kila rounded-sm">
+    <div class="flex flex-col items-center mb-6">
+      <h2 class="text-xl sm:text-2xl font-extrabold text-center mb-2
+        <% if (colorQuery === 'แดง') { %>text-red-600<% } %>
+        <% if (colorQuery === 'น้ำเงิน') { %>text-blue-600<% } %>
+        <% if (colorQuery === 'ชมพู') { %>text-pink-400<% } %>
+        <% if (colorQuery === 'เหลือง') { %>text-yellow-400<% } %>
+        <% if (['แดง','น้ำเงิน','ชมพู','เหลือง'].indexOf(colorQuery) === -1) { %>border-yellow-600<% } %> drop-shadow-sm tracking-tight leading-12">
+        กรรมการสี<%= colorQuery %>
+      </h2>
+      <div class="h-1 w-32 bg-gradient-to-r from-red-400 via-yellow-300 to-blue-400 rounded-full mt-2 mb-2"></div>
+    </div>
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <% committees.forEach(function(committee) { %>
+        <li class="flex items-center bg-gray-800 border 
+          <% if (colorQuery === 'แดง') { %>border-red-600<% } %>
+          <% if (colorQuery === 'น้ำเงิน') { %>border-blue-600<% } %>
+          <% if (colorQuery === 'ชมพู') { %>border-pink-400<% } %>
+          <% if (colorQuery === 'เหลือง') { %>border-yellow-400<% } %>
+          <% if (['แดง','น้ำเงิน','ชมพู','เหลือง'].indexOf(colorQuery) === -1) { %>border-yellow-500<% } %>
+          shadow-md rounded-lg p-5">
+          <span class="font-semibold text-yellow-300 text-lg mr-3">★</span>
+          <span class="font-semibold text-gray-200 text-lg"><%= committee.full_name %></span>
+          <span class="ml-4 text-yellow-200 text-base">(<%= committee.position %>)</span>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+  </div>
+<% } %>
+
+<!-- Student List -->
+<div id="student-list" class="container mx-auto mt-20 mb-4 px-3">
+  <% if (typeof results !== 'undefined') { %>
+    <div class="p-4 sm:p-8 bg-gray-800 border border-gray-600 shadow-kila rounded-sm mx-auto">
+      <div class="flex flex-col items-center mb-10"> 
+        <h2 class="text-xl sm:text-3xl font-extrabold text-center mb-2 text-gray-100 drop-shadow-sm tracking-tight leading-12">
+          <% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
+            ผลการค้นหา <span class="bg-pink-900/50 text-pink-300 px-2 py-0.5 rounded-lg font-semibold">"<%= searchQuery %>"</span>
+            <br>
+            <span class="ml-2 bg-gray-700/60 text-gray-200 px-2 py-0.5 rounded-lg font-semibold">พบทั้งหมด <%= results.length %> คน</span>
+          <% } else { %>
+            รายชื่อนิสิต
+            <% if (typeof colorQuery !== 'undefined' && colorQuery) { %>
+              <span class="
+              <% if (colorQuery === 'แดง') { %> text-[#f87171] <% } %>
+              <% if (colorQuery === 'น้ำเงิน') { %> text-[#60a5fa] <% } %>
+              <% if (colorQuery === 'ชมพู') { %> text-[#f472b6] <% } %>
+              <% if (colorQuery === 'เหลือง') { %> text-[#facc15] <% } %>
+              ">สี<%= colorQuery %></span>
+            <% } %>
+            <% if (typeof majorQuery !== 'undefined' && majorQuery) { %>
+              <br>
+              <span class="bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded-lg font-semibold ml-2"><%= majorQuery %></span>
+              <br>
+            <% } %>
+            ทั้งหมด <%= results.length %> คน
+          <% } %>
+        </h2>
+        <div class="h-1 w-48 bg-gradient-to-r from-pink-400 via-blue-400 to-pink-400 rounded-full mt-2 mb-2"></div>
+      </div>
+      <% if (results && results.length > 0) { %>
+        <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <% function getBadgeClass(color) {
+            if (color === 'แดง') return 'badge-red';
+            if (color === 'น้ำเงิน') return 'badge-blue';
+            if (color === 'ชมพู') return 'badge-pink';
+            if (color === 'เหลือง') return 'badge-yellow';
+            return 'badge-default';
+          }
+          function getDotClass(color) {
+            if (color === 'แดง') return 'dot-red';
+            if (color === 'น้ำเงิน') return 'dot-blue';
+            if (color === 'ชมพู') return 'dot-pink';
+            if (color === 'เหลือง') return 'dot-yellow';
+            return 'dot-default';
+          } %>
+          <% results.forEach(function(student) { %>
+            <li data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+              <a  href="#" data-student='<%- JSON.stringify(student) %>' class="cursor-pointer flex items-center bg-gray-700 border border-gray-600 shadow-md rounded-lg p-5 transition-transform hover:scale-[1.025] hover:shadow-xl hover:bg-gray-600">
+                <div class="flex-1 min-w-0">
+                  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <% if (student.isCommittee) { %>
+                        <span class="font-semibold text-yellow-300 text-lg mr-2">★</span>
+                      <% } %>
+                      <span class="font-semibold text-gray-200 text-lg"><%= student.student_code %></span>
+                      <span class="ml-2 text-gray-300 text-base"><%= student.first_name %> <%= student.last_name %></span>
+                    </div>
+                    <span class="inline-block mt-2 sm:mt-0 text-xs font-semibold px-3 py-1 rounded-full border <%= getBadgeClass(student.color) %>">
+                      <%= student.major || '-' %>
+                      <% if (student.isCommittee) { %>
+                        <span class="ml-1 text-yellow-300">กรรมการ</span>
+                      <% } %>
+                    </span>
+                  </div>
+                  <div class="flex justify-start sm:justify-end items-center mt-2 gap-2">
+                    <% if (student.color) { %>
+                      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium <%= getBadgeClass(student.color) %>">
+                        <span class="h-3 w-3 rounded-full inline-block mr-1 <%= getDotClass(student.color) %>"></span>
+                        <%= student.color %>
+                      </span>
+                    <% } else { %>
+                      <span class="inline-block bg-gray-600 text-gray-400 text-xs font-medium px-2 py-0.5 rounded-full">ไม่ระบุสี</span>
+                    <% } %>
+                  </div>
+                </div>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      <% } else { %>
+        <div class="text-center text-gray-400 text-2xl">ไม่พบข้อมูลที่ค้นหา</div>
+      <% } %>
+    </div>
+  <% } %>  
+
+  <!-- Go to Top -->
+  <button id="goToTopBtn" title="Go to top" 
+    style="display:block;position:fixed;bottom:40px;right:-20%;z-index:1000;" 
+    class="cursor-pointer bg-gray-800/80 hover:bg-gray-700/80 text-white font-bold py-3 px-4 rounded shadow-lg border border-gray-600 transition-all duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-8 inline-block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+    </svg>
+  </button>
+</div> 
+
+<!-- Sweetalert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Animation on scroll -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<script>
+  AOS.init(); // Animation on scroll
+
+  document.addEventListener('DOMContentLoaded', function() {
+    <% if (typeof results !== 'undefined') { %>
+      const studentList = document.getElementById('hero');
+      if (studentList) {
+        studentList.scrollIntoView({ behavior: 'smooth' });
+      }
+    <% } %>
+
+    // Auto-submit form when filters change
+    const form = document.getElementById('filter_search');
+    const formFilterColorMajor = document.getElementById('filter_color_major');
+    const colorInputs = formFilterColorMajor.querySelectorAll('input[name="color"]');
+    const majorSelect = formFilterColorMajor.querySelector('select[name="major"]');
+    const searchInput = form.querySelector('input[name="q"]');
+    const searchBtn = form.querySelector('button[type="submit"]');
+
+    // Filter auto-submit (color, major)
+    function submitColorMajorForm() {
+      formFilterColorMajor.submit();
+    }
+    colorInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        submitColorMajorForm();
+      });
+    });
+    if (majorSelect) {
+      majorSelect.addEventListener('change', function() {
+        submitColorMajorForm();
+      });
+    }
+
+    // Search: submit only q
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const q = searchInput.value.trim();
+        if (q) {
+          window.location.href = `/search?q=${encodeURIComponent(q)}`;
+        } else {
+          window.location.href = '/search';
+        }
+      });
+    }
+    if (searchInput) {
+      searchInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          form.dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+      });
+    }
+
+    // Model ********************
+    document.querySelectorAll('a[data-student]').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        const student = JSON.parse(this.getAttribute('data-student'));
+        let badgeColor = '#6b7280';
+        if (student.color === 'แดง') { badgeColor = '#ef4444'; }
+        else if (student.color === 'น้ำเงิน') { badgeColor = '#3b82f6'; }
+        else if (student.color === 'ชมพู') { badgeColor = '#f472b6'; }
+        else if (student.color === 'เหลือง') { badgeColor = '#eab308'; }
+
+        Swal.fire({
+          title: `
+            <div style="margin-top: -100px; margin-bottom: -20px;">
+              <span style=\"font-size:2.2rem; font-weight:700; color: #f3f4f6; letter-spacing:0.5px;\">${student.first_name} ${student.last_name}</span>
+            </div>`,
+          html: `
+            <div style=\"display:flex; flex-direction:column; align-items:center; gap:1.2em; margin-top:1em;\">
+              <div style=\"background:#374151; border-radius:8px; padding:1em 2em; min-width:220px; box-shadow:0 1px 6px #0001;\">
+                <b style=\"color:#d1d5db;\">รหัสนิสิต:</b> <span style=\"color:#f9fafb; font-weight:500;\">${student.student_code}</span>
+                <br>
+                <b style=\"color:#d1d5db;\">สาขา:</b> <span style=\"color:#f9fafb; font-weight:500;\">${student.major || '-'}</span>
+              </div>
+              <span style=\"display:inline-flex; align-items:center; gap:0.25em; margin-top:0.2em;\">
+                <span style=\"background:${badgeColor}; width:1.2em; height:1.2em; border-radius:50%; display:inline-block;\"></span>
+                <span style=\"font-size:1.1rem; color:${badgeColor}; font-weight:600;\">สี${student.color || '-'}</span>
+              </span>
+            </div>`,
+          iconHtml: `<i class="fa-solid fa-user" style="font-size: 3.5rem; display: flex; align-items: center; justify-content: center; color: ${badgeColor};"></i>`,
+          iconColor: `${badgeColor}`,
+          confirmButtonText: '<span style="min-width: 80px; display: inline-block;">ปิด</span>',
+          confirmButtonColor: '#2b7fff',
+          showConfirmButton: false,
+          showCloseButton: true,
+          background: '#1f2937',
+          customClass: { closeButton: 'swal2-close-custom' },
+          footer: `
+            <form action="/search" method="GET" style="margin-top:0.5em;">
+              <input type="text" name="color" value="${student.color}" hidden>
+              <button type="submit" class="swal2-styled" style="background: ${badgeColor};color: #fff;margin-top: 12px;border: none;border-radius: 16px;padding: 0.5em 1.5em;font-size: 1rem;font-weight: 600;box-shadow: 0 2px 8px rgba(0,0,0,0.08);transition: background 0.2s, box-shadow 0.2s;cursor: pointer;letter-spacing:0.5px;">แสดงเพื่อนร่วมสีทั้งหมด</button>
+            </form>
+            `
+        });
+      });
+    });
+  });
+
+  // Go to Top ********************
+  let lastScrollTop = 0;
+  const goToTopBtn = document.getElementById('goToTopBtn');
+  window.addEventListener('scroll', function() {
+    let st = window.pageYOffset || document.documentElement.scrollTop;
+    if (st < lastScrollTop && st > 200) {
+      goToTopBtn.style.right = '0px';
+    } else {
+      goToTopBtn.style.right = '-20%';
+    }
+    lastScrollTop = st <= 0 ? 0 : st;
+  }, false);
+  goToTopBtn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script> 
+
+<style>
+  .swal2-close-custom {
+    font-size: 4rem !important;
+    top: 1.2em !important;
+    right: 1.2em !important;
+    width: 1.5em !important;
+    height: 1.5em !important;
+    color: #d1d5db !important;
+    opacity: 0.85 !important;
+    transition: color 0.2s, background 0.2s;
+  }
+  .swal2-close-custom:hover {
+    color: #ef4444 !important;
+    background: #374151 !important;
+    opacity: 1 !important;
+  }
+
+  div:where(.swal2-icon) {
+    position: relative;
+    box-sizing: content-box;
+    justify-content: center;
+    width: 6em;
+    height: 6em;
+    margin: 2.5em auto .6em;
+    zoom: var(--swal2-icon-zoom);
+    border: .25em solid rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    border-color: #000;
+    font-family: inherit;
+    line-height: 5em;
+    cursor: default;
+    user-select: none;
+  }
+
+  /* Color filter styles */
+  input[type="radio"]:checked + span {
+    transform: scale(1.2);
+    box-shadow: 0 0 0 3px rgba(75, 85, 99, 0.8), 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  input[type="radio"]:checked + span::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .badge-red { background-color: #7f1d1d !important; color: #fca5a5 !important; border-color: #fca5a5 !important; }
+  .badge-blue { background-color: #1e3a8a !important; color: #93c5fd !important; border-color: #93c5fd !important; }
+  .badge-green { background-color: #14532d !important; color: #86efac !important; border-color: #86efac !important; }
+  .badge-yellow { background-color: #716c12 !important; color: #fde047 !important; border-color: #716c12 !important; }
+  .badge-default { background-color: #374151 !important; color: #9ca3af !important; border-color: #374151 !important; }
+  .badge-pink { background-color: #831843 !important; color: #f9a8d4 !important; border-color: #f9a8d4 !important; }
+  .dot-red { background-color: #ef4444 !important; }
+  .dot-blue { background-color: #3b82f6 !important; }
+  .dot-green { background-color: #22c55e !important; }
+  .dot-yellow { background-color: #eab308 !important; }
+  .dot-default { background-color: #6b7280 !important; }
+  .dot-pink { background-color: #f472b6 !important; }
+
+  .swal2-footer::before {
+  display: none !important;
+  content: none !important;
+  border: none !important;
+}
+.swal2-footer {
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+</style>

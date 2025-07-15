@@ -1,0 +1,34 @@
+<div class="sm:p-3 z-50">
+  <div class="bg-gray-800 rounded-none sm:rounded-lg shadow-lg border border-gray-700">
+    <nav class="container mx-auto py-4 px-6 max-h-20 flex justify-between items-center">
+      <a href="/" class="flex items-center">
+        <img src="img/kila.png" alt="Image Kila" class="h-12 cursor-pointer hover:scale-105 transition-transform duration-300">
+      </a>
+      <ul class="flex gap-8 items-center">
+        <li class="hidden sm:block"><a href="/" class="text-gray-200 hover:text-blue-400 transition-colors duration-300 font-medium">Home</a></li>
+        <li class="hidden sm:block"><a href="/diary" class="text-gray-200 hover:text-blue-400 transition-colors duration-300 font-medium">Diary</a></li>
+        <li class="hidden sm:block"><a href="/profile" class="text-gray-200 hover:text-blue-400 transition-colors duration-300 font-medium">Profile</a></li>
+        <% if (locals.user) { %>
+          <li class="flex items-center gap-4">
+            <span class="text-gray-200 font-medium">สวัสดี, <%= locals.user.username %></span>
+            <form action="/auth/sign-out" method="post">
+              <button class="cursor-pointer text-gray-200 hover:text-blue-400 transition-colors duration-300 font-medium flex items-center gap-2 border-2 border-blue-400 rounded-lg px-4 py-2 hover:bg-blue-400/10">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                Sign out
+              </button>
+            </form>
+          </li>
+        <% } else { %>
+          <li>
+            <a href="/auth/signin" class="text-gray-200 hover:text-blue-400 transition-colors duration-300 font-medium flex items-center gap-2 border-2 border-blue-400 rounded-lg px-4 py-2 hover:bg-blue-400/10">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              Sign in
+            </a>
+          </li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+</div>

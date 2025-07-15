@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --color-kila-bg: #f8fafc; 
+  --color-kila-text: #1e293b;
+  --color-kila-text-secondary: #64748b;
+
+  --shadow-kila: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@layer base {
+  body { 
+    font-family: "IBM Plex Sans Thai", sans-serif;
+  }
+}
