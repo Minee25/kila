@@ -230,6 +230,9 @@
   .fixed {
     position: fixed;
   }
+  .static {
+    position: static;
+  }
   .top-0 {
     top: calc(var(--spacing) * 0);
   }
