@@ -61,6 +61,18 @@
               <option value="วิทยาการคอมพิวเตอร์หลักสูตรนานาชาติ CST" <% if (typeof majorQuery !== 'undefined' && majorQuery === 'วิทยาการคอมพิวเตอร์หลักสูตรนานาชาติ CST') { %>selected<% } %>>วิทยาการคอมพิวเตอร์หลักสูตรนานาชาติ CST</option>
             </select>
           </div>
+
+          <!-- Year level Filter -->
+          <div class="flex flex-col items-center">
+            <label class="text-gray-200 font-semibold mb-2 text-sm">ชั้นปี</label> 
+            <select name="level" class="px-3 py-2 border border-gray-500 rounded-lg bg-gray-800 text-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 outline-none">
+              <option value="">ทุกชั้นปี</option>
+              <option value="1" <% if (typeof levelQuery !== 'undefined' && levelQuery === '1') { %>selected<% } %>>1</option>
+              <option value="2" <% if (typeof levelQuery !== 'undefined' && levelQuery === '2') { %>selected<% } %>>2</option>
+              <option value="3" <% if (typeof levelQuery !== 'undefined' && levelQuery === '3') { %>selected<% } %>>3</option>
+              <option value="4" <% if (typeof levelQuery !== 'undefined' && levelQuery === '4') { %>selected<% } %>>4</option>
+            </select>
+          </div>
         </div>
       </form>
       
@@ -141,6 +153,10 @@
               <span class="bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded-lg font-semibold ml-2"><%= majorQuery %></span>
               <br>
             <% } %>
+            <% if (typeof levelQuery !== 'undefined' && levelQuery) { %>
+              <span class="bg-yellow-900/50 text-yellow-300 px-2 py-0.5 rounded-lg font-semibold ml-2 mt-5">ชั้นปี <%= levelQuery %></span>
+              <br>
+            <% } %>
             ทั้งหมด <%= results.length %> คน
           <% } %>
         </h2>
@@ -217,22 +233,26 @@
 <!-- Animation on scroll -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+<% if (typeof results !== 'undefined') { %>
+<script>
+  window.addEventListener('DOMContentLoaded', function() {
+    const studentList = document.getElementById('hero');
+    if (studentList) {
+      studentList.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+</script>
+<% } %>
+
 <script>
   AOS.init(); // Animation on scroll
-
   document.addEventListener('DOMContentLoaded', function() {
-    <% if (typeof results !== 'undefined') { %>
-      const studentList = document.getElementById('hero');
-      if (studentList) {
-        studentList.scrollIntoView({ behavior: 'smooth' });
-      }
-    <% } %>
-
     // Auto-submit form when filters change
     const form = document.getElementById('filter_search');
     const formFilterColorMajor = document.getElementById('filter_color_major');
     const colorInputs = formFilterColorMajor.querySelectorAll('input[name="color"]');
     const majorSelect = formFilterColorMajor.querySelector('select[name="major"]');
+    const levelSelect = formFilterColorMajor.querySelector('select[name="level"]');
     const searchInput = form.querySelector('input[name="q"]');
     const searchBtn = form.querySelector('button[type="submit"]');
 
@@ -240,13 +260,21 @@
     function submitColorMajorForm() {
       formFilterColorMajor.submit();
     }
+
     colorInputs.forEach(input => {
       input.addEventListener('change', function() {
         submitColorMajorForm();
       });
     });
+
     if (majorSelect) {
       majorSelect.addEventListener('change', function() {
+        submitColorMajorForm();
+      });
+    }
+
+    if (levelSelect) {
+      levelSelect.addEventListener('change', function() {
         submitColorMajorForm();
       });
     }
@@ -263,6 +291,7 @@
         }
       });
     }
+
     if (searchInput) {
       searchInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') {

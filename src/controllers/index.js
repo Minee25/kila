@@ -43,7 +43,7 @@ exports.search = async (req, res) => {
 
 
   try {
-    const { q, color, major } = req.query;
+    const { q, color, major, level } = req.query;
     // สร้าง SQL query และ parameters
     let sql = "SELECT * FROM students";
     let params = [];
@@ -63,6 +63,11 @@ exports.search = async (req, res) => {
     if (major) {
       conditions.push("major = ?");
       params.push(major);
+    }
+
+    if (level) {
+      conditions.push("year_level = ?");
+      params.push(level);
     }
 
     if (conditions.length > 0) {
@@ -91,7 +96,7 @@ exports.search = async (req, res) => {
           (err, rows) => {
             if (err) {
               console.error("Error fetching committees:", err.message);
-              resolve([]); // Don't block students if committee fails
+              resolve([]);
             } else {
               resolve(rows);
             }
@@ -104,6 +109,7 @@ exports.search = async (req, res) => {
     locals.searchQuery = q;
     locals.colorQuery = color;
     locals.majorQuery = major;
+    locals.levelQuery = level;
     locals.committees = committees;
     res.render("index", locals);
   } catch (err) {
