@@ -61,22 +61,103 @@ kila/
 
 ## API
 
-  **ดึงข้อมูลนิสิตทั้งหมด**
+  ### ดึงข้อมูลนิสิตทั้งหมด
   ```bash
   /api/get-student
   ```
 
-  **กรองข้อมูลนิสิตด้วยการส่ง Parameters**
+  **Responses**
+  ```json
+  {
+    "success": true,
+    "message": "Student data retrieved successfully",
+    "data": [
+      {
+        "student_id": 1,
+        "student_code": "6601121****",
+        "first_name": "นายสมชาย",
+        "last_name": "ชมชาย",
+        "year_level": 3,
+        "major": "วิทยาการคอมพิวเตอร์ CS",
+        "color": "ชมพู"
+      },
+      {
+        "student_id": 2,
+        "student_code": "6801121****",
+        "first_name": "นายสมรัก",
+        "last_name": "สมรัก",
+        "year_level": 1,
+        "major": "วิทยาการข้อมูลประยุกต์ ADS",
+        "color": "ชมพู"
+      },
+    ]
+  }
+  ```
+
+  ### กรองข้อมูลนิสิตด้วยการส่ง Parameters
   ```bash
   /api/get-student?search=
   /api/get-student?color=
   /api/get-student?major=
   /api/get-student?level=
+  /api/get-student?search=&color=&major=&level=
+  ```
+  **Responses**
+
+  ```json
+  {
+    "success": true,
+    "message": "Student data retrieved successfully",
+    "data": [
+      {
+        "student_id": 4,
+        "student_code": "67011212152",
+        "first_name": "นางสาวสมหญิง",
+        "last_name": "สมหญิง",
+        "year_level": 3,
+        "major": "วิทยาการคอมพิวเตอร์ CS",
+        "color": "แดง"
+      },
+      {
+        "student_id": 5,
+        "student_code": "67011216014",
+        "first_name": "นางสาวหวานใจ",
+        "last_name": "หวานใจ",
+        "year_level": 3,
+        "major": "วิทยาการคอมพิวเตอร์ CS",
+        "color": "แดง"
+      },
+    ]
+  }
   ```
 
-  **ดึงข้อมูลคณะกรรมการ**
+  ### ดึงข้อมูลคณะกรรมการ
   ```bash
   /api/get-committee
+  ```
+
+  **Responses**
+  ```json
+  {
+    "success": true,
+    "message": "Cmmittee data retrieved successfully",
+    "data": [
+      {
+        "id": 1,
+        "full_name": "อาจารย์สมใจ สมใจ",
+        "position": "กรรมการ",
+        "color": "เหลือง",
+        "role": "committee"
+      },
+      {
+        "id": 2,
+        "full_name": "ผู้ช่วยศาสตราจารย์สมสมัย สมสมัย",
+        "position": "กรรมการ",
+        "color": "แดง",
+        "role": "committee"
+      },
+    ]
+  }
   ```
 
 ## ผู้พัฒนา
