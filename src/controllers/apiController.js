@@ -36,26 +36,8 @@ exports.getStudent = async (req, res) => {
 
     sqlQuery += " ORDER BY color, major";
 
-    if (conditions.length > 0) {
-      const studentQuery = await new Promise((resolve, reject) => {
-        db.all(sqlQuery, params, (err, rows) => {
-          if (err) {
-            console.error("Error fetching students:", err.message);
-            reject(err);
-          } else {
-            resolve(rows);
-          }
-        });
-      });
-
-      return res.status(200).json({
-        success: true,
-        message: "Student data retrieved successfully",
-        data: studentQuery
-      });
-    }
-
     if (!allStudent) {
+      console.log("00000")
       allStudent = await new Promise((resolve, reject) => {
         const sql = "SELECT * FROM students ORDER BY color";
         db.all(sql, [], (err, rows) => {
@@ -69,7 +51,24 @@ exports.getStudent = async (req, res) => {
       });
     }
 
+    if (conditions.length > 0) {
+      const filtered = allStudent.filter((student) => {
+        return (!search || student.first_name.includes(search) || student.last_name.includes(search) || student.student_code.includes(search)) &&
+          (!color || student.color === color) &&
+          (!major || student.major === major) &&
+          (!level || student.year_level === Number(level));
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: "Filtered students retrieved successfully",
+        data: filtered
+      });
+
+    }
+
     return res.status(200).json({
+      status: 200,
       success: true,
       message: "Student data retrieved successfully",
       data: allStudent
@@ -77,6 +76,7 @@ exports.getStudent = async (req, res) => {
   } catch (err) {
     console.error("Error in student controller:", err);
     return res.status(500).json({
+      status: 500,
       success: false,
       message: "Failed to fetch student data",
       error: err.message || "Internal Server Error"
@@ -103,6 +103,7 @@ exports.getCommittee = async (req, res) => {
     }
 
     return res.status(200).json({
+      status: 200,
       success: true,
       message: "Cmmittee data retrieved successfully",
       data: allCommittee
@@ -110,6 +111,7 @@ exports.getCommittee = async (req, res) => {
   } catch (err) {
     console.error("Error in committees controller:", err);
     return res.status(500).json({
+      status: 500,
       success: false,
       message: "Failed to fetch committees data",
       error: err.message || "Internal Server Error"
