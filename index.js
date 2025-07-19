@@ -24,6 +24,9 @@ app.set("layout", "layouts/main");
 // Routes
 app.use("/", require("./src/routes/index"));
 
+// API
+app.use("/api/", require("./src/routes/apiRouter"));
+
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 });

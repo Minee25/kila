@@ -59,6 +59,26 @@ kila/
 - SQLite
 - Tailwind CSS
 
+## API
+
+  **ดึงข้อมูลนิสิตทั้งหมด**
+  ```bash
+  /api/get-student
+  ```
+
+  **กรองข้อมูลนิสิตด้วยการส่ง Parameters**
+  ```bash
+  /api/get-student?search=
+  /api/get-student?color=
+  /api/get-student?major=
+  /api/get-student?level=
+  ```
+
+  **ดึงข้อมูลคณะกรรมการ**
+  ```bash
+  /api/get-committee
+  ```
+
 ## ผู้พัฒนา
 
 - Thaksin Mualsuk

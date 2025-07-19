@@ -12,6 +12,7 @@ const studentDb = new sqlite3.Database(dbPath, (err) => {
     console.log("Connected to SQLite database at:", dbPath);
   }
 });
+studentDb.configure('busyTimeout', 5000);
 
 function createTable() {
   studentDb.run(`
