@@ -36,7 +36,7 @@ function createCommitteeTable() {
   studentDb.run(`
     CREATE TABLE IF NOT EXISTS committees (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      full_name TEXT NOT NULL,
+      full_name TEXT NOT NULL UNIQUE,
       position TEXT NOT NULL,
       color TEXT NOT NULL,
       role TEXT NOT NULL DEFAULT 'committee'

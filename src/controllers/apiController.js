@@ -89,7 +89,7 @@ exports.getCommittee = async (req, res) => {
   try {
     if (!allCommittee) {
       allCommittee = await new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM committees ORDER BY position, full_name`;
+        const sql = `SELECT * FROM committees ORDER BY color, full_name`;
         db.all(sql, [], (err, rows) => {
           if (err) {
             console.error("Error fetching committees:", err.message);
